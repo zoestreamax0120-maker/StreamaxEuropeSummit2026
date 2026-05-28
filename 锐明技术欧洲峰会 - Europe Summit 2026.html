@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>锐明技术欧洲峰会 - Europe Summit 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --brand-green: rgb(152, 203, 71);
+            --brand-green-light: rgba(152, 203, 71, 0.2);
+            --brand-green-glow: rgba(152, 203, 71, 0.4);
+            --bg-black: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-dark-gray: #555555;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 弥散背景 */
+        .glow-bg {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(152, 203, 71, 0.1) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow-1 { top: -10%; right: -10%; }
+        .glow-2 { bottom: -10%; left: -10%; }
+
+        /* 发光字体 */
+        .text-glow-green {
+            text-shadow: 0 0 10px rgba(152, 203, 71, 0.4), 0 0 20px rgba(152, 203, 71, 0.4);
+        }
+
+        /* 柔和呼吸发光效果 */
+        @keyframes glowBreath {
+            0% {
+                text-shadow: 0 0 4px rgba(152, 203, 71, 0.15);
+                opacity: 0.8;
+            }
+            100% {
+                text-shadow: 0 0 12px rgba(152, 203, 71, 0.45);
+                opacity: 1;
+            }
+        }
+        .text-glow-soft-breath {
+            animation: glowBreath 2.5s infinite alternate ease-in-out;
+        }
+
+        /* Bento 样式 */
+        .bento-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .bento-card:hover { 
+            border-color: var(--brand-green); 
+            transform: translateY(-5px); 
+            box-shadow: 0 0 30px rgba(152, 203, 71, 0.1); 
+        }
+
+        .section-title { 
+            font-size: 0.875rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.2em; 
+            color: var(--brand-green); 
+            margin-bottom: 1.5rem; 
+            display: block; 
+        }
+        .text-gradient { 
+            background: linear-gradient(135deg, #fff 0%, var(--brand-green) 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        /* Roadmap 专用样式 */
+        .timeline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; position: relative; z-index: 10; }
+        .timeline-column { display: flex; flex-direction: column; gap: 15px; }
+        .phase-card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-left: 3px solid var(--brand-green); 
+            padding: 15px 20px; 
+            border-radius: 4px 12px 12px 4px; 
+            transition: all 0.3s ease; 
+        }
+        .phase-card:hover { 
+            background: rgba(255, 255, 255, 0.05); 
+            border-color: var(--brand-green); 
+            transform: translateX(5px); 
+        }
+        .phase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .phase-title { color: var(--brand-green); font-weight: 700; font-size: 0.95rem; }
+        .phase-date { font-size: 0.8rem; color: #888; font-weight: 600; }
+        .task-list { font-size: 0.85rem; color: #ccc; line-height: 1.6; list-style: none; padding: 0; margin: 0; }
+        .task-list li { position: relative; padding-left: 15px; margin-bottom: 4px; }
+        .task-list li::before { content: "•"; position: absolute; left: 0; color: var(--brand-green); }
+        .highlight-phase { 
+            background: linear-gradient(90deg, rgba(152, 203, 71, 0.1), transparent); 
+            border-left-width: 5px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+
+        /* 时间轴样式 */
+        .timeline-container { position: relative; padding-left: 0; }
+        .timeline-line { 
+            position: absolute; 
+            left: 130px; 
+            top: 24px; 
+            bottom: 24px; 
+            width: 2px; 
+            background: linear-gradient(to bottom, var(--brand-green), rgba(152, 203, 71, 0.15)); 
+            box-shadow: 0 0 10px rgba(152, 203, 71, 0.3);
+            z-index: 1;
+        }
+        .timeline-item { 
+            position: relative; 
+            display: flex; 
+            align-items: flex-start; 
+            padding-bottom: 40px; 
+            z-index: 2;
+        }
+        .time-label { 
+            width: 110px; 
+            flex-shrink: 0;
+            text-align: right; 
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-weight: 500; 
+            font-size: 15px; 
+            padding-top: 14px; 
+            color: rgba(255, 255, 255, 0.85); 
+            letter-spacing: -0.02em;
+        }
+        .timeline-node { 
+            position: absolute; 
+            left: 130px; 
+            width: 10px; 
+            height: 10px; 
+            background: var(--brand-green); 
+            border: 2px solid var(--bg-black);
+            border-radius: 50%; 
+            z-index: 10; 
+            top: 21px; 
+            transform: translateX(-50%); 
+            box-shadow: 0 0 8px var(--brand-green), 0 0 15px rgba(152, 203, 71, 0.5); 
+        }
+
+        .agenda-card { 
+            background: transparent !important; 
+            border: none !important; 
+            border-radius: 0 !important; 
+            padding: 6px 0 0 0 !important; 
+            flex-grow: 1; 
+            margin-left: 50px; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 16px; 
+            transition: all 0.3s ease; 
+        }
+        .agenda-card:hover { 
+            transform: translateX(6px); 
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .tag { padding: 2px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .bg-networking { background: rgba(152, 203, 71, 0.15); color: var(--brand-green); }
+        .bg-keynote { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+        .bg-experience { background: rgba(0, 200, 255, 0.15); color: #00c8ff; }
+        .bg-interaction { background: rgba(255, 160, 0, 0.15); color: #ffa000; }
+        .bg-vip { background: linear-gradient(135deg, var(--brand-green), #ffffff); color: #000000; }
+
+        .moment-card { position: relative; border-radius: 24px; overflow: hidden; height: 100%; border: 1px solid var(--border-color); transition: 0.4s; }
+        .moment-card:hover { border-color: var(--brand-green); }
+        .moment-overlay { 
+            position: absolute; 
+            inset: 0; 
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%); 
+            padding: 2rem; 
+            padding-bottom: 3.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
+        }
+
+        @keyframes pulseGlow {
+            from { opacity: 0.7; text-shadow: 0 0 20px rgba(152, 203, 71, 0.4); }
+            to { opacity: 1; text-shadow: 0 0 40px rgba(152, 203, 71, 0.8); }
+        }
+        .animate-glow { animation: pulseGlow 2s infinite alternate; }
+
+        .nav-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: 0.3s; }
+        .nav-dot.active { background: var(--brand-green); box-shadow: 0 0 10px var(--brand-green); width: 32px; border-radius: 6px; }
+
+        img { object-fit: cover; }
+
+        .unified-slogan {
+            font-size: 1.5rem; 
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--brand-green);
+            padding: 2rem 0; 
+            overflow: visible;
+        }
+
+        .budget-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        .budget-table th { color: var(--text-dark-gray); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; padding: 12px 16px; text-align: left; }
+        .budget-table td { background: rgba(255,255,255,0.02); padding: 16px; font-size: 14px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .budget-table td:first-child { border-left: 1px solid var(--border-color); border-radius: 12px 0 0 12px; }
+        .budget-table td:last-child { border-right: 1px solid var(--border-color); border-radius: 0 12px 12px 0; text-align: right; font-weight: 600; }
+        .budget-table tr:hover td { background: rgba(152, 203, 71, 0.05); border-color: rgba(152, 203, 71, 0.2); }
+
+        .progress-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--brand-green); border-radius: 3px; transition: width 0.4s ease; }
+
+        .module-emphasis-highlight { box-shadow: 0 0 0 1px rgba(152,203,71,0.35), 0 0 40px rgba(152,203,71,0.08); border-radius: 8px; }
+
+        /* 自定义美化滚动条 */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(152, 203, 71, 0.3); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(152, 203, 71, 0.6); }
+    </style>
+    <style>
+        *, ::before, ::after {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+        }
+        /* Tailwind Utilities Fallback Overwrite */
+        *, ::after, ::before { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+<div id="report-preview" class="w-full">
+    <div class="glow-bg glow-1"></div>
+    <div class="glow-bg glow-2"></div>
+
+    <!-- 侧边平滑导航 -->
+    <div id="report-nav-dots" class="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50 hidden lg:flex">
+        <div class="nav-dot active" onclick="scrollToSlide('0')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('1')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('4')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('6')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('7')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('9')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('10')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('12')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('12-roadmap')"></div>
+        <div class="nav-dot" onclick="scrollToSlide('13')"></div>
+    </div>
+
+    <main id="report-sections-root" class="max-w-7xl mx-auto space-y-32 mb-32">
+        <!-- Slide 0: Hero Banner -->
+        <section id="slide-0" class="min-h-screen flex items-center relative">
+            <div class="absolute bottom-[-10%] right-[-5%] w-[60vw] h-[60vw] bg-[radial-gradient(circle,rgba(152,203,71,0.15)_0%,transparent_70%)] filter blur-3xl pointer-events-none z-0"></div>
+            
+            <div class="relative z-10 w-full px-[8%]">
+                <div class="animate__animated animate__fadeInUp overflow-visible">
+                    <h1 data-field="title" class="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-tight tracking-tight py-12 block mb-4">EUROPE SUMMIT 2026</h1>
+                    <div data-field="subtitle" class="text-3xl font-light mb-2">锐明技术欧洲峰会</div>
+                    <div data-field="tagline" class="text-sm tracking-[0.2em] opacity-60 uppercase mb-8">Connecting Intelligence, Driving Future Mobility</div>
+                    
+                    <div class="flex flex-col gap-3 mt-8 border-l-2 border-[var(--brand-green)] pl-4 backdrop-blur-md bg-white/[0.03] py-4 px-6 rounded-r-2xl max-w-md border-white/5 shadow-2xl">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-mono text-[var(--brand-green)] tracking-widest uppercase opacity-70">Time / 时间</span>
+                            <span data-field="eventTime" class="text-base font-semibold text-white tracking-wider">9.24-25</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-mono text-[var(--brand-green)] tracking-widest uppercase opacity-70">Venue / 地点</span>
+                            <span data-field="eventLocation" class="text-base font-semibold text-white tracking-wider">比利时，布鲁塞尔</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-12 right-12 flex items-center gap-4 opacity-90 z-10">
+                <img data-field="logo" src="图片1.png" alt="STREAMAX Logo" class="h-12 w-auto object-contain rounded-none">
+            </div>
+        </section>
+
+        <!-- Slide 1: Strategic Context -->
+        <section id="slide-1" class="min-h-screen pt-20">
+            <span data-field="sectionTitle" class="section-title">Strategic Context</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bento-card md:col-span-2 lg:col-span-4">
+                    <h2 class="text-4xl font-bold mb-4">活动定位</h2>
+                    <p class="text-xl text-gray-400"><span class="text-white border-b border-brand-green">塑造品牌价值，驱动业务转化</span></p>
+                </div>
+                <div class="bento-card">
+                    <div class="text-brand-green text-5xl mb-4 font-mono font-bold">01</div>
+                    <h3 class="text-2xl font-bold mb-2">品牌价值</h3>
+                    <p class="text-gray-400">强化客户认知，建立国际化品牌信任</p>
+                </div>
+                <div class="bento-card">
+                    <div class="text-brand-green text-5xl mb-4 font-mono font-bold">02</div>
+                    <h3 class="text-2xl font-bold mb-2">生态共建</h3>
+                    <p class="text-gray-400">锐明携全球伙伴齐聚，共讨行业发展</p>
+                </div>
+                <div class="bento-card">
+                    <div class="text-brand-green text-5xl mb-4 font-mono font-bold">03</div>
+                    <h3 class="text-2xl font-bold mb-2">技术呈现</h3>
+                    <p class="text-gray-400">实车演示、前沿技术</p>
+                </div>
+                <div class="bento-card">
+                    <div class="text-brand-green text-5xl mb-4 font-mono font-bold">04</div>
+                    <h3 class="text-2xl font-bold mb-2">商机转化</h3>
+                    <p class="text-gray-400">推动高价值客户合作与项目落地</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Target Audience -->
+        <section id="slide-4" class="min-h-screen pt-20 flex flex-col px-4 max-w-7xl mx-auto">
+            <span data-field="sectionTitle" class="section-title text-sm uppercase tracking-wider text-brand-green mb-4 block">Target Audience</span>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 w-full">
+                <!-- 卡片 1：拟邀客户总量 -->
+                <div class="lg:col-span-3 bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-center items-center h-[280px] relative overflow-hidden group hover:border-[var(--brand-green)]/30 transition-all duration-300">
+                    <div class="absolute -top-10 -left-10 w-32 h-32 bg-[var(--brand-green)]/5 rounded-full filter blur-xl group-hover:bg-[var(--brand-green)]/10 transition-all"></div>
+                    <span class="text-gray-400 font-medium text-sm mb-3 uppercase tracking-wider text-center">拟邀约客户数量</span>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-7xl font-black text-brand-green tracking-tight text-glow-soft-breath">125</span>
+                        <span class="text-gray-400 text-sm font-semibold">家</span>
+                    </div> 
+                </div>
+
+                <!-- 卡片 2：区域分布 -->
+                <div class="lg:col-span-4 bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-between h-[280px] hover:border-[var(--brand-green)]/30 transition-all duration-300">
+                    <span class="text-gray-400 font-medium text-sm mb-4 uppercase tracking-wider">拟邀约客户区域分布</span>
+                    <div class="flex items-center justify-between gap-4 flex-grow">
+                        <div class="relative w-32 h-32 flex-shrink-0 flex items-center justify-center">
+                            <canvas id="chart-regions" width="256" height="256" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="flex flex-col gap-2 flex-grow text-xs font-medium pl-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#98cb47]"></span>
+                                    <span>西南欧</span>
+                                </div>
+                                <span class="text-white font-semibold">63 (50.4%)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#5e802c]"></span>
+                                    <span>东北欧</span>
+                                </div>
+                                <span class="text-white font-semibold">43 (34.4%)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#ffffff]"></span>
+                                    <span>英国</span>
+                                </div>
+                                <span class="text-white font-semibold">19 (15.2%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 3：客户类型 -->
+                <div class="lg:col-span-5 bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-between h-[280px] hover:border-[var(--brand-green)]/30 transition-all duration-300">
+                    <span class="text-gray-400 font-medium text-sm mb-4 uppercase tracking-wider">客户类型细分</span>
+                    <div class="flex items-center justify-between gap-4 flex-grow overflow-hidden">
+                        <div class="relative w-32 h-32 flex-shrink-0 flex items-center justify-center">
+                            <canvas id="chart-types" width="256" height="256" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="flex flex-col gap-1.5 flex-grow text-xs font-medium pl-2 h-[170px] overflow-y-auto pr-1 custom-scrollbar">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-[#98cb47]"></span>
+                                    <span class="truncate max-w-[120px]">Bus Operator</span>
+                                </div>
+                                <span class="text-white font-semibold">43</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-[#83af3e]"></span>
+                                    <span class="truncate max-w-[120px]">SI (系统集成)</span>
+                                </div>
+                                <span class="text-white font-semibold">35</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-[#6d9334]"></span>
+                                    <span class="truncate max-w-[120px]">Partners (伙伴)</span>
+                                </div>
+                                <span class="text-white font-semibold">12</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-[#57772b]"></span>
+                                    <span class="truncate max-w-[120px]">PTO (运营局)</span>
+                                </div>
+                                <span class="text-white font-semibold">8</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-[#425c1e]"></span>
+                                    <span class="truncate max-w-[120px]">Builder (制造)</span>
+                                </div>
+                                <span class="text-white font-semibold">7</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-[#ffffff]"></span>
+                                    <span class="truncate max-w-[120px]">End User (终端)</span>
+                                </div>
+                                <span class="text-white font-semibold">9</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-gray-300">
+                                    <span class="w-2 h-2 rounded-full bg-white/60"></span>
+                                    <span class="truncate max-w-[120px]">Association</span>
+                                </div>
+                                <span class="text-white font-semibold">4</span>
+                            </div>
+                            <div class="flex items-center justify-between font-mono opacity-55 text-[10px] mt-1 pt-1 border-t border-white/5">
+                                <span>其他 (OEM/Tech)</span>
+                                <span>7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 4：合作关系 -->
+                <div class="lg:col-span-6 bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-between h-[250px] hover:border-[var(--brand-green)]/30 transition-all duration-300">
+                    <span class="text-gray-400 font-medium text-sm mb-4 uppercase tracking-wider">客户合作关系状态</span>
+                    <div class="flex items-center justify-between gap-6 flex-grow">
+                        <div class="relative w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                            <canvas id="chart-relations" width="224" height="224" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-grow">
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-3 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[11px] text-gray-400 mb-1">
+                                    <span class="w-2 h-2 rounded-full bg-[#98cb47]"></span>
+                                    <span>潜在客户</span>
+                                </div>
+                                <span class="text-xl font-bold text-white leading-tight">58 <span class="text-xs font-normal text-gray-400">(46.40%)</span></span>
+                            </div>
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-3 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[11px] text-gray-400 mb-1">
+                                    <span class="w-2 h-2 rounded-full bg-[#5e802c]"></span>
+                                    <span>深度合作</span>
+                                </div>
+                                <span class="text-xl font-bold text-white leading-tight">45 <span class="text-xs font-normal text-gray-400">(36.00%)</span></span>
+                            </div>
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-3 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[11px] text-gray-400 mb-1">
+                                    <span class="w-2 h-2 rounded-full bg-white"></span>
+                                    <span>初步合作</span>
+                                </div>
+                                <span class="text-xl font-bold text-white leading-tight">22 <span class="text-xs font-normal text-gray-400">(17.60%)</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 5：参与意向 -->
+                <div class="lg:col-span-6 bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-between h-[250px] hover:border-[var(--brand-green)]/30 transition-all duration-300">
+                    <span class="text-gray-400 font-medium text-sm mb-4 uppercase tracking-wider">客户参与意向比例</span>
+                    <div class="flex items-center justify-between gap-6 flex-grow">
+                        <div class="relative w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                            <canvas id="chart-intentions" width="224" height="224" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5 flex-grow">
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-2.5 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[10px] text-gray-400 mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#253511]"></span>
+                                    <span class="truncate">意向不明确</span>
+                                </div>
+                                <span class="text-lg font-bold text-white leading-tight">97 <span class="text-[10px] font-normal text-gray-400">(77.6%)</span></span>
+                            </div>
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-2.5 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[10px] text-brand-green mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#98cb47]"></span>
+                                    <span class="font-bold truncate">参与可能性高</span>
+                                </div>
+                                <span class="text-lg font-bold text-brand-green leading-tight">18 <span class="text-[10px] font-normal text-brand-green/70">(14.4%)</span></span>
+                            </div>
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-2.5 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[10px] text-gray-400 mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#6d9334]"></span>
+                                    <span class="truncate">有参与意向</span>
+                                </div>
+                                <span class="text-lg font-bold text-white leading-tight">7 <span class="text-[10px] font-normal text-gray-400">(5.6%)</span></span>
+                            </div>
+                            <div class="bg-white/[0.01] border border-white/5 rounded-xl p-2.5 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 text-[10px] text-gray-400 mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                    <span class="truncate">有站台意向</span>
+                                </div>
+                                <span class="text-lg font-bold text-white leading-tight">3 <span class="text-[10px] font-normal text-gray-400">(2.4%)</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部网格卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bento-card p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-green/30 transition-all">
+                    <h4 class="text-brand-green font-bold text-xl mb-3">Tier 1: 核心客户</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">运营商、终端客户、技术决策人</p>
+                </div>
+                <div class="bento-card p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-gray-400/30 transition-all">
+                    <h4 class="text-gray-200 font-bold text-xl mb-3">Tier 2: 生态伙伴</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">系统集成商、软件生态合作伙伴、OEM厂商</p>
+                </div>
+                <div class="bento-card p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-gray-400/30 transition-all">
+                    <h4 class="text-gray-200 font-bold text-xl mb-3">Tier 3: 行业影响者</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">国际标杆客户、行业协会资源 (如 UITP)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Event Agenda Day 1 -->
+        <section id="slide-6" class="min-h-screen pt-20">
+            <span data-field="sectionTitle" class="section-title">Event Agenda</span>
+            <header class="flex items-center gap-10 mb-12">
+                <h2 data-field="dayLabel" class="text-5xl font-bold text-brand-green leading-none">DAY 1</h2>
+                <div class="flex gap-10">
+                    <div class="flex flex-col justify-center">
+                        <span class="text-white text-3xl font-bold leading-tight">认知品牌</span>
+                        <span class="text-[var(--text-dark-gray)] text-sm font-bold uppercase tracking-widest leading-none">Awareness</span>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-white text-3xl font-bold leading-tight">体验技术</span>
+                        <span class="text-[var(--text-dark-gray)] text-sm font-bold uppercase tracking-widest leading-none">Experience</span>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-white text-3xl font-bold leading-tight">建立信任</span>
+                        <span class="text-[var(--text-dark-gray)] text-sm font-bold uppercase tracking-widest leading-none">Trust</span>
+                    </div>
+                </div>
+            </header>
+
+            <div data-field="timeline" class="timeline-container">
+                <div class="timeline-line"></div>
+                <!-- Dynamic Content Injection -->
+            </div>
+
+            <div class="mt-8 text-center">
+                <p class="text-[11px] text-gray-500 max-w-3xl mx-auto uppercase tracking-widest leading-relaxed">
+                    *STREAMAX 保留自行决定修改任何活动环节的权利
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 7: Event Agenda Day 2 -->
+        <section id="slide-7" class="min-h-screen pt-20">
+            <span data-field="sectionTitle" class="section-title">Event Agenda</span>
+            <header class="flex items-center gap-10 mb-12">
+                <h2 data-field="dayLabel" class="text-5xl font-bold text-brand-green leading-none">DAY 2</h2>
+                <div class="flex gap-10">
+                    <div class="flex flex-col justify-center">
+                        <span class="text-white text-3xl font-bold leading-tight">价值传达</span>
+                        <span class="text-[var(--text-dark-gray)] text-sm font-bold uppercase tracking-widest leading-none">Validation</span>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-white text-3xl font-bold leading-tight">深度交流</span>
+                        <span class="text-[var(--text-dark-gray)] text-sm font-bold uppercase tracking-widest leading-none">Discussion</span>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-white text-3xl font-bold leading-tight">商机转化</span>
+                        <span class="text-[var(--text-dark-gray)] text-sm font-bold uppercase tracking-widest leading-none">Conversion</span>
+                    </div>
+                </div>
+            </header>
+
+            <div data-field="timeline" class="timeline-container">
+                <div class="timeline-line"></div>
+                <!-- Dynamic Content Injection -->
+            </div>
+
+            <div class="mt-8 text-center">
+                <p class="text-[11px] text-gray-500 max-w-3xl mx-auto uppercase tracking-widest leading-relaxed">
+                    *STREAMAX 保留自行决定修改任何活动环节的权利
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 9: Space Strategy -->
+        <section id="slide-9" class="min-h-screen pt-20 flex flex-col">
+            <span data-field="sectionTitle" class="section-title">Space Strategy</span>
+            <div class="mb-12">
+                <h2 data-field="headline" class="text-[40px] font-bold mb-4 text-gradient">Venue Planning</h2>
+                <p data-field="subtitle" class="text-xl text-gray-400 italic border-l-2 border-brand-green pl-4">空间设计围绕客户旅程展开</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bento-card flex flex-col border-white/10 h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="text-brand-green font-mono text-xs tracking-tighter mb-1 uppercase">TRANSITION</div>
+                            <h3 class="text-xl font-bold">Corridor 过道</h3>
+                        </div>
+                        <span class="text-2xl opacity-20 font-mono font-bold">01</span>
+                    </div>
+                    <div class="mb-6">
+                        <div class="font-bold text-base mb-1 text-white">Transition Zone 过渡区</div>
+                        <div class="text-[10px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full inline-block uppercase font-bold">Immersion + Anticipation</div>
+                    </div>
+                    <div class="space-y-3 text-sm text-gray-400 flex-grow">
+                        <p>● 品牌引导</p><p>● 旅程过渡</p><p>● 嘉宾签到</p>
+                    </div>
+                </div>
+
+                <div class="bento-card flex flex-col border-white/10 h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="text-brand-green font-mono text-xs tracking-tighter mb-1 uppercase">LEVEL 01</div>
+                            <h3 class="text-xl font-bold">First Floor 一层</h3>
+                        </div>
+                        <span class="text-2xl opacity-20 font-mono font-bold">02</span>
+                    </div>
+                    <div class="mb-6">
+                        <div class="font-bold text-base mb-1 text-white">Experience Zone 体验区</div>
+                        <div class="text-[10px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full inline-block uppercase font-bold">Awareness + Tech</div>
+                    </div>
+                    <div class="space-y-3 text-sm text-gray-400 flex-grow">
+                        <p>● 演讲区域</p><p>● 全行业解决方案展示区</p><p>● 车辆演示区</p>
+                    </div>
+                </div>
+
+                <div class="bento-card flex flex-col border-brand-green/30 h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="text-brand-green font-mono text-xs tracking-tighter mb-1 uppercase">LEVEL 02</div>
+                            <h3 class="text-xl font-bold">Second Floor 二层</h3>
+                        </div>
+                        <span class="text-2xl opacity-20 font-mono font-bold">03</span>
+                    </div>
+                    <div class="mb-6">
+                        <div class="font-bold text-base mb-1 text-white">The Lounge 休息区</div>
+                        <div class="text-[10px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full inline-block uppercase font-bold">Trust + Conversion</div>
+                    </div>
+                    <div class="space-y-3 text-sm text-gray-400 flex-grow">
+                        <p>● 午餐社交</p><p>● 鸡尾酒晚宴</p><p>● 商务交流</p>
+                    </div>
+                </div>
+            </div>
+ <div class="grid grid-cols-1 md:grid-cols-6 gap-6 flex-grow mb-8">
+                <div class="moment-card md:col-span-6 aspect-[16/7] md:aspect-[21/9] group overflow-hidden !h-auto">
+                    <img data-field="galleryImg1" src="image_839ba3.jpg" alt="Gallery Image 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl">
+                </div>
+                <div class="moment-card md:col-span-3 aspect-[16/9] group overflow-hidden !h-auto">
+                    <img data-field="galleryImg2" src="过道.jpg" alt="Gallery Image 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl">
+                </div>
+                <div class="moment-card md:col-span-3 aspect-[16/9] group overflow-hidden !h-auto">
+                    <img data-field="galleryImg3" src="签到.jpg" alt="Gallery Image 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl">
+                </div>
+                <div class="moment-card md:col-span-3 aspect-[16/9] group overflow-hidden !h-auto">
+                    <img data-field="galleryImg4" src="雾幕机.jpg" alt="Gallery Image 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl">
+                </div>
+                <div class="moment-card md:col-span-3 aspect-[16/9] group overflow-hidden !h-auto">
+                    <img data-field="galleryImg5" src="灯光秀.jpg" alt="Gallery Image 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl">
+                </div>
+            </div>
+            
+            <div class="mt-auto text-center py-12">
+                <p class="unified-slogan animate-glow tracking-wider">
+                    EXPLORE IMMERSIVE VISUAL MOBILITY.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- Slide 10: Signature Moments -->
+        <section id="slide-10" class="min-h-screen pt-20 flex flex-col">
+            <span data-field="sectionTitle" class="section-title">Core Experience Design</span>
+            <div class="mb-8">
+                <h2 data-field="headline" class="text-[40px] font-bold mb-4 text-gradient">Signature Moments &amp; Touchpoints</h2>
+                <p data-field="subtitle" class="text-xl text-gray-400 italic border-l-2 border-brand-green pl-4">打造不可错过的峰会瞬间，打通感知最后一公里</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-6 flex-grow mb-8">
+                <div class="moment-card md:col-span-3 h-[300px]">
+                    <img data-field="momentImage1" src="image_839be0.jpg" alt="Smart Check-in" class="w-full h-full rounded-2xl">
+                    <div class="moment-overlay">
+                        <div class="py-2">
+                            <span class="text-brand-green font-mono text-xs tracking-widest uppercase block mb-2">Phase 01 — Identity</span>
+                            <h4 class="text-2xl font-bold leading-normal mb-1">Smart Check-in</h4>
+                            <p class="text-xs text-gray-300">人脸识别打卡墙 · 专属探索编号生成</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="moment-card md:col-span-3 h-[300px]">
+                    <img data-field="momentImage2" src="image_839bda.jpg" alt="Opening Ceremony" class="w-full h-full rounded-2xl">
+                    <div class="moment-overlay">
+                        <div class="py-2">
+                            <span class="text-brand-green font-mono text-xs tracking-widest uppercase block mb-2">Phase 02 — Activation</span>
+                            <h4 class="text-2xl font-bold leading-normal mb-1">Opening Ceremony</h4>
+                            <p class="text-xs text-gray-300">红黄绿灯启动序列 · 激光扫描 · AI感知视觉演绎</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="moment-card md:col-span-2 h-[300px] group overflow-hidden">
+                    <img data-field="touchpointsImage1" src="space branding.png" alt="Space Branding" class="w-full h-full object-cover transition-transform group-hover:scale-105 rounded-2xl">
+                    <div class="moment-overlay">
+                        <div class="py-2">
+                            <span class="text-brand-green font-mono text-xs tracking-widest uppercase block mb-2">Touchpoint 01 — Space</span>
+                            <h4 class="text-2xl font-bold leading-normal mb-1">Space Branding</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="moment-card md:col-span-2 h-[300px] group overflow-hidden">
+                    <img data-field="touchpointsImage2" src="image_839ba0.jpg" alt="Catering Experience" class="w-full h-full object-cover transition-transform group-hover:scale-105 rounded-2xl">
+                    <div class="moment-overlay">
+                        <div class="py-2">
+                            <span class="text-brand-green font-mono text-xs tracking-widest uppercase block mb-2">Touchpoint 02 — Food</span>
+                            <h4 class="text-2xl font-bold leading-normal mb-1">Catering Experience</h4>
+                            <p class="text-xs text-gray-300">Logo Chocolate · Brand Color Styling</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="moment-card md:col-span-2 h-[300px]">
+                    <img data-field="momentImage4" src="image_839bc0.jpg" alt="Networking Dinner" class="w-full h-full rounded-2xl">
+                    <div class="moment-overlay">
+                        <div class="py-2">
+                            <span class="text-brand-green font-mono text-xs tracking-widest uppercase block mb-2">Phase 03 — Social</span>
+                            <h4 class="text-2xl font-bold leading-normal mb-1">Networking Dinner</h4>
+                            <p class="text-xs text-gray-300">Cocktail Bar &amp; Semi-private Booth</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="moment-card md:col-span-6 h-[220px] md:h-[280px] group overflow-hidden">
+                    <img data-field="bannerImage" src="x.jpg" alt="Brand Vision" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl">
+                    <div class="moment-overlay">
+                        <div class="py-2">
+                            <span class="text-brand-green font-mono text-xs tracking-widest uppercase block mb-2">Touchpoint 03 — Vision</span>
+                            <h4 class="text-2xl font-bold leading-normal mb-1">Brand Vision</h4>
+                            <p class="text-xs text-gray-300">Connecting Intelligence, Driving Future Mobility</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto text-center py-12">
+                <p class="unified-slogan animate-glow tracking-wider">
+                    TURNING TECHNOLOGY INTO UNFORGETTABLE MOMENTS.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- Slide 12: Budget Strategy -->
+        <section id="slide-12" class="min-h-screen pt-20 flex flex-col">
+            <span data-field="sectionTitle" class="section-title">Investment Strategy</span>
+            <div class="mb-12">
+                <h2 data-field="headline" class="text-[40px] font-bold mb-4 text-gradient">Budget Overview</h2>
+                <p data-field="subtitle" class="text-xl text-gray-400 border-l-2 border-brand-green pl-4">精细化预算管理，聚焦客户体验与品牌转化</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                <div class="md:col-span-4 space-y-6">
+                    <div class="bento-card flex flex-col justify-center items-center bg-brand-green/5 border-brand-green/30 h-64 text-center">
+                        <p class="text-gray-400 mb-3 uppercase tracking-widest text-xs">Total Budget (USD)</p>
+                        <h2 data-field="totalUSD" class="text-5xl font-black text-brand-green leading-none">≈ $300,000</h2>
+                        <p data-field="rateNote" class="opacity-40 mt-6 text-[10px] font-mono uppercase">Included 21% VAT</p>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <h4 class="text-brand-green font-bold text-sm mb-6 uppercase tracking-widest">Strategic Allocation</h4>
+                        <div class="space-y-6">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm text-gray-300">场地租赁&amp;搭建</span>
+                                    <span class="text-sm font-bold font-mono">45.4%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-fill" style="width: 45.4%"></div></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm text-gray-300">技术设备</span>
+                                    <span class="text-sm font-bold font-mono">24.5%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-fill" style="width: 24.5%"></div></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm text-gray-300">餐饮管理与人员服务</span>
+                                    <span class="text-sm font-bold font-mono">17.7%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-fill" style="width: 17.7%; box-shadow: 0 0 15px rgba(152, 203, 71, 0.6);"></div></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm text-gray-300">内容制作与广告营销</span>
+                                    <span class="text-sm font-bold font-mono">11.3%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-fill" style="width: 17.7%; opacity: 0.8;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-8 bento-card">
+                    <h3 class="text-xl font-bold mb-6 text-white uppercase tracking-tight flex items-center gap-2">
+                        Detailed Itemization <span class="text-[10px] bg-brand-green/20 text-brand-green px-2 py-0.5 rounded-full font-mono">Full List</span>
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="budget-table">
+                            <thead>
+                                <tr><th>Category 项目类别</th><th>Description 说明</th><th>Percentage 比例</th></tr>
+                            </thead>
+                            <tbody data-field="tableBody">
+                                <tr><td>场地租赁费</td><td>Half Meudon + Rooftop + Meeting Rooms + 电费 + 21% VAT</td><td>21.4%</td></tr>
+                                <tr><td>活动搭建</td><td>舞台结构、背景板、会场/氛围布置、搭拆人工</td><td>25.0%</td></tr>
+                                <tr><td>AV技术设备类</td><td>灯光/音响 system、LED大屏租赁、搭拆人工</td><td>24.5%</td></tr>
+                                <tr><td>餐饮运营</td><td>午餐、鸡尾酒晚宴、茶歇</td><td>10.3%</td></tr>
+                                <tr><td>人员服务类</td><td>礼仪人员 + 摄影摄像 + 服务员 + 现场执行团队</td><td>7.4%</td></tr>
+                                <tr><td>内容制作</td><td>现场与宣发内容制作、设计创意、平面/三维设计等</td><td>3.9%</td></tr>
+                                <tr><td>广告营销</td><td>广告推广等</td><td>7.4%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 py-8 border-t border-white/5 text-center">
+                <p class="text-[11px] text-gray-500 max-w-3xl mx-auto uppercase tracking-widest leading-relaxed">
+                    策划阶段按照较高规格做的预算，实际推进将按需增减。
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 12: Roadmap -->
+        <section id="slide-12-roadmap" class="min-h-screen pt-20 flex flex-col relative">
+            <div class="absolute -top-20 -right-20 w-96 h-96 bg-[radial-gradient(circle,rgba(152,203,71,0.1)_0%,transparent_70%)] filter blur-3xl pointer-events-none"></div>
+            <header class="mb-12">
+                <span data-field="sectionTitle" class="section-title">Execution Strategy</span>
+                <h2 data-field="headline" class="text-[40px] font-bold mb-4 text-gradient">PROJECT TIMELINE</h2>
+                <p data-field="subtitle" class="text-xl text-gray-400 border-l-2 border-brand-green pl-4">精细化里程碑管理</p>
+            </header>
+
+            <main class="timeline-grid flex-grow">
+                <div class="timeline-column">
+                    <div class="phase-card">
+                        <div class="phase-header"><span class="phase-title">P1: 前期策划</span><span class="phase-date">2026.05 - 06</span></div>
+                        <ul class="task-list"><li>峰会主视觉 (KV) 及 主题定稿</li><li>启动演讲嘉宾及主要合作伙伴初步邀约</li><li>确定所有峰会展出的展品，展示要求</li><li>最终活动方案确认</li></ul>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-header"><span class="phase-title">P2: 活动物料确认</span><span class="phase-date">2026.06 - 08</span></div>
+                        <ul class="task-list"><li>内容营销方案确认</li><li>演讲嘉宾名单确认</li><li>活动宣传预热启动</li><li>宣传视频、KV 延展物料设计完成</li></ul>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-header"><span class="phase-title">P3: 宣传预热</span><span class="phase-date">2026.07 - 09.15</span></div>
+                        <ul class="task-list"><li>嘉宾邀请函发放</li><li>物料制作&amp;校对</li><li>媒体预热稿件发布</li></ul>
+                    </div>
+                </div>
+                <div class="timeline-column">
+                    <div class="phase-card highlight-phase">
+                        <div class="phase-header"><span class="phase-title">P4: 搭建&amp;彩排</span><span class="phase-date">09.21 - 09.23</span></div>
+                        <ul class="task-list"><li><strong>09.22:</strong> 物料进场&amp;搭建</li><li><strong>09.23:</strong> 场地搭建，全流程彩排 (Dress Rehearsal)</li></ul>
+                    </div>
+                    <div class="phase-card highlight-phase" style="border-left-color: #ffffff;">
+                        <div class="phase-header"><span class="phase-title">P5: 峰会正式执行 (Event Days)</span><span class="phase-date">09.24 - 09.25</span></div>
+                        <ul class="task-list"><li><strong>DAY 1:</strong> 注册签到、主论坛执行、VIP 欢迎晚宴</li><li><strong>DAY 2:</strong> 分论坛交流、展区接待、商务考察</li><li>活动结束，启动高效撤场与物料清点</li></ul>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-header"><span class="phase-title">P6: 总结报告</span><span class="phase-date">09.26 - 10.15</span></div>
+                        <ul class="task-list"><li>收集参会反馈调查，输出项目结案报告</li><li>精选素材库备份，剪辑最终回顾视频</li></ul>
+                    </div>
+                </div>
+            </main>
+        </section>
+
+        <!-- Slide 13: Summary -->
+        <section id="slide-13" class="min-h-screen flex items-center justify-center">
+            <div class="bento-card max-w-4xl text-center p-20 border-brand-green/30">
+                <h2 data-field="headline" class="text-5xl font-bold mb-10 text-white">Why This Summit Matters</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                    <div><div class="text-brand-green font-bold text-2xl text-glow-soft-breath py-2">品牌升级</div></div>
+                    <div><div class="text-brand-green font-bold text-2xl text-glow-soft-breath py-2">客户沉淀</div></div>
+                    <div><div class="text-brand-green font-bold text-2xl text-glow-soft-breath py-2">生态协同</div></div>
+                    <div><div class="text-brand-green font-bold text-2xl text-glow-soft-breath py-2">商机转化</div></div>
+                </div>
+                <p data-field="quote" class="text-[24px] font-light text-gray-400 mb-8">A BETTER FUTURE OF MOBILITY, CREATED BY TECHNOLOGY</p>
+                <div data-field="footer" class="text-brand-green font-bold text-xl tracking-[0.2em] uppercase">STREAMAX EUROPE SUMMIT 2026</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-20 opacity-30 text-sm border-t border-white/5 uppercase tracking-[0.3em]">
+        © 2026 STREAMAX Technology. All rights reserved.
+    </footer>
+</div>
+
+<!-- 页面一体化基础数据源（不再使用 LocalStorage 覆盖，确保即改即显） -->
+<script id="embedded-page-config">
+window.__EMBEDDED_PAGE_CONFIG__ = {
+    "versionName":"v14",
+    "currentActiveModule":"slide-0",
+    "modulesOrder":["slide-0","slide-1","slide-4","slide-6","slide-7","slide-9","slide-10","slide-10-gallery","slide-12","slide-12-roadmap","slide-13"],
+    "modules":{
+        "slide-0":{
+            "name":"Hero Banner",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "title":"EUROPE SUMMIT 2026",
+                "subtitle":"锐明技术欧洲峰会",
+                "tagline":"Connecting Intelligence, Driving Future Mobility",
+                "logo":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYcAAACGCAYAAAA2NUZuAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAMsAAADLAAShkWtsAABLkSURBVHhe7d17kGRVfQfw3/fMYlEWmCWSxBis4KMsK5o4684ICBaspiISDYtkHwrCYiRoMSNslRjxuQRFKVIB04MmIeUCFR47S1wkRM1Dd4OxwH2wa6R8x4WUqVhAFWuCRnH7980fc3q8c7b73tO9/bi9fD9VUzXzO71wu8/t87v3nHPPgbVBctLMVpM83cyWm9mJZmYAlqevHaIVAPalQTMzd98P4MQ0nng+gIfToIiIVCA56e7bWE+T6fG2uPv+9MVtVCUPERGJQusXkhtIbgeweulLRETk6SbYQmJYTfL6EXcbiYhITQSSy0l+eMwTw4E0ICIivQPJ1Wa2LS1oh+QOM9tnZo+kZYMG4GYAbZOABqRFRPqsiwHoDem/rQt335sebBtVyUNERKJgZh1nAbWQvAHAzWm8Rsa5S0xEpHYWZyuVAfCJNCYiIkeuUHXVTfJh9dWLiDy9wY2fKJupRHJfCGFFGh8VkpMkr0/CJwM4OoktQfIBM/tpGj8MBwCsAXAwLSiKs8HeYGYrzex4MzshfU0vALwewCHvh+QZ8YHBl7eebB+CAwC+ZmY3515IxOdqLkzjI3AgHv8j3Rx/C8njzWyS5MtiHfelfg/TQTN7KNbJvvh7x/N0HOvizp1hfQh2SRovQ7PHlx30jeeebD9IywaB5DGxrXpRWlYGwD8C+HgaH7ZxTA5nmNn2ND5sJK8IIfxZGm9x95PN7BIzW1+VuLpF8oEQwilJbDJOSR7pQ4wkdwDY2GmpkxZ3vxxAmuRHjuTd8fg7Nky2cPzPBnAxyYsBvCAtrxOSXzCzm0IIn0nLbKF8k5l9OI2PWlVdbNkdLjbaDIDfScs6Ir9mZnNrp/1v0qJ+it/HrQCyEwPJn5rZlSGEG9KyUcgac5ClSH7ezG5N47bQaJzi7rcAuB/Ahn4nhuiLxT/iiViLp9sBnGFme9398rRsHABYTXJvvAhpi+RLzOxeM/tY3RODLbynM81si7tfR3JZWl5XhbpoO2lm3ZTfRA+zRptPyzoCXm5AY37PxHV33N//O2uSz3T395C8p8vE8M9mData6uicGUHLpH8ikzuzWE8GibstPM7HMALkjL+gnAv7R+J3liTAwd7/5GAcD1dZ7+XAbAcpLb2k1/JvkCknMATk7L6gzAMgDvJvmhtKzOYl1sb1cXZmbrTzp438RRzVmjXU3aE2l5B0cb7d1hWWjcuXvidWlhr9z9FSQbAK4F8Ly0vJ04zX7OzGZDCPek5aOUkxzaVsrT2K0hhDvTYOzr//ygG2mST5rZA4W/6/x0++ZOV311FxulQ7q9YjfSa9P4GLnY3d+YBuss1kXHbq9zJ+3RtdGND9E5S+P9aXknAN4As8aWneGy+XmbSMu74e5vBgLelZZ2Q/FZMCrMhhG+n5aNWOeYQ1ebp4lEPSAO4KP0s4tX71wEcU4yXiY3893pY+mN3COEKi5+Fme1NX9AJyX1m1o96XB67jyp1GrOKyfSyND4EJwLoJmEtnvvx3NsFIKtrhuRDZvYtM3syLSs4E8Bz0mBRHDP4YRoveI6ZTQE4Pi1oh+TuEMJ04e/VIxqQ7rkuOpnfc9RKus8A1tVdK2mfsonm3LpX2DfSsjJxQsIMyRkAz07LO4njKTcWewHqBu6+veqL3ukLXhfuvjfjJKs8sXrh7sea2V8CeEta1g7Je8zsswDuAfB4Wt6N3EFdkvtiUisdJO6Wu28GkPMlHMhn36vYyG/OOGeM5MZWP3DuwC3JbWZ2YwhhydhQO+6+LWOs6BwAd6fBlLtfamYzAF6SlhWRpJmdFELYlZYNW7xI2Jyx/M2Suigzv92OsWPDjBku7Wb2GMkvOXHjm1/ZbDtwn3L3U+PnvT4t64TkjwHMkZwLIQxl1lSvQpqqZNg8eqPZM5JOjQANsSurG6/GEND8vfTWIrkDwHMpfEhqlW9jrlfSgOpEMLX01iFnPO7qzoE8J9pLAXgWWlsxLp6j90AjGunvQHaLMm/T8s7AXCSORpbd09cPf9Va00a2JR7MU3yy2Z2XgjhI2VPqNdVKzkciH2wA6ugXgCYjIN7dVU5oGlmm9stc3GkILk6YzBxIFeFI/B/aaAoDvR2K+c7l5NAFuUcB8nS93IkWjPd/CfAZwi7jhV12QLYcpp9gBOhsWXnstPjWNKsmV1L8ifp61tI3mRmMyGE/Af0agbFP+I6QNdnzkAZptLZGqOYrRTXTXkiY1rjqwH8Wxrsh8z3vWIQg9G28Bm0nsyuationu7uhvH5U4OLMPXf/NoAXp69pIekhhK7my/dztlKLu18A4JY0XkTy/SGEa9J4UQ3rYkcIYVUa78WWXeGP4kyjqu/PIpJfR7C5tSv9r+0Xg9IzxbEHkvvN7EYzmwsh/GzJf2DMLEkORfHp1kNOCpKVt9aZJqum0LZUTaXNbCT7mhzc/VwAd6XxIpLfAfBKAD9Ky/oh",
+                "eventTime":"9.24-25",
+                "eventLocation":"比利时，布鲁塞尔"
+            }
+        },
+        "slide-1":{
+            "name":"Strategic Context",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{"sectionTitle":"Strategic Context"}
+        },
+        "slide-4":{
+            "name":"Target Audience",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{"sectionTitle":"Target Audience","image":"image_77c9c0.jpg"}
+        },
+        "slide-6":{
+            "name":"Event Agenda Day 1",
+            "visible":true,
+            "type":"agenda",
+            "emphasis":"normal",
+            "fields":{"sectionTitle":"Event Agenda","dayLabel":"DAY 1"},
+            "agendaItems":[
+                {"time":"","period":"上午 | Morning","tagText":"Networking","tagClass":"bg-networking","title":"Check-in & Welcome Coffee","desc":"• 签到预热"},
+                {"time":"","period":"上午 | Morning","tagText":"Keynote","tagClass":"bg-keynote","title":"Opening Session","desc":"• 峰会启动"},
+                {"time":"","period":"上午 | Morning","tagText":"Keynote","tagClass":"bg-keynote","title":"STREAMAX Leadership Keynote","desc":"• 锐明高层演讲"},
+ {"time":"","period":"上午 | Morning","tagText":"Keynote","tagClass":"bg-keynote","title":"Client Keynote","desc":"• 受邀客户代表演讲"},
+                {"time":"","period":"中午 | Noon","tagText":"Networking","tagClass":"bg-networking","title":"Lunch Break","desc":"• 午餐交流"},
+                {"time":"","period":"下午 | Afternoon","tagText":"Keynote","tagClass":"bg-keynote","title":"Panel Session","desc":"• 锐明高层&受邀客户代表圆桌对话"},
+                {"time":"","period":"下午 | Afternoon","tagText":"Experience","tagClass":"bg-experience","title":"Demo van","desc":"• 实车演示"},
+                {"time":"","period":"下午 | Afternoon","tagText":"Networking","tagClass":"bg-networking","title":"Cocktail Dinner","desc":"• 商务社交"},
+                {"time":"","period":"下午 | Afternoon","tagText":"VIP","tagClass":"bg-vip","title":"VIP Meeting","desc":"全天开放，需提前预约"}
+            ]
+        },
+        "slide-7":{
+            "name":"Event Agenda Day 2",
+            "visible":true,
+            "type":"agenda",
+            "emphasis":"normal",
+            "fields":{"sectionTitle":"Event Agenda","dayLabel":"DAY 2"},
+            "agendaItems":[
+                {"time":"","period":"上午 | Morning","tagText":"Networking","tagClass":"bg-networking","title":"Welcome Coffee","desc":"• 议程预热"},
+                {"time":"","period":"上午 | Morning","tagText":"Keynote","tagClass":"bg-keynote","title":"Industry Trends & Technology Insights","desc":"• 行业趋势\n• 技术分享"},
+                {"time":"","period":"中午 | Noon","tagText":"Networking","tagClass":"bg-networking","title":"Lunch Break","desc":"• 午餐交流"},
+                {"time":"","period":"下午 | Afternoon","tagText":"Experience","tagClass":"bg-experience","title":"Demo van","desc":"• 实车演示"},
+                {"time":"","period":"下午 | Afternoon","tagText":"Keynote","tagClass":"bg-keynote","title":"Panel Session","desc":"• 圆桌讨论"},
+                {"time":"","period":"下午 | Afternoon","tagText":"Keynote","tagClass":"bg-keynote","title":"Wrap-up","desc":"• 峰会闭幕"},
+                {"time":"","period":"下午 | Afternoon","tagText":"VIP","tagClass":"bg-vip","title":"VIP Meeting","desc":"全天开放，需提前预约"}
+            ]
+        },
+        "slide-9":{
+            "name":"Space Strategy",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "sectionTitle":"Space Strategy",
+                "headline":"Venue Planning",
+                "subtitle":"空间设计围绕客户旅程展开",
+                "floorPlanTitle":"Detailed Floor Plan",
+                "floorPlanImage":"场地策划图.jpg"
+            }
+        },
+        "slide-10":{
+            "name":"Signature Moments",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "sectionTitle":"Core Experience Design",
+                "headline":"Signature Moments & Touchpoints",
+                "subtitle":"打造不可错过的峰会瞬间，打通感知最后一公里",
+                "momentImage1":"image_839be0.jpg",
+                "momentImage2":"image_839bda.jpg",
+                "momentImage4":"image_839bc0.jpg",
+                "touchpointsImage1":"image_839ba3.jpg",
+                "touchpointsImage2":"image_839ba0.jpg",
+                "bannerImage":"x.jpg"
+            }
+        },
+        "slide-12":{
+            "name":"Budget Overview",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "sectionTitle":"Investment Strategy",
+                "headline":"Budget Overview",
+                "subtitle":"精细化预算管理，聚焦客户体验与品牌转化",
+                "totalUSD":"≈ $300,000",
+                "rateNote":"Included 21% VAT"
+            }
+        },
+        "slide-12-roadmap":{
+            "name":"Project Roadmap",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "sectionTitle":"Execution Strategy",
+                "headline":"PROJECT TIMELINE",
+                "subtitle":"精细化里程碑管理"
+            }
+        },
+        "slide-13":{
+            "name":"Closing Summary",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "headline":"Why This Summit Matters",
+                "quote":"A BETTER FUTURE OF MOBILITY, CREATED BY TECHNOLOGY",
+                "footer":"STREAMAX EUROPE SUMMIT 2026"
+            }
+        },
+        "slide-10-gallery":{
+            "name":"Visual Gallery",
+            "visible":true,
+            "emphasis":"normal",
+            "fields":{
+                "galleryImg1":"灯光秀.jpg",
+                "galleryImg2":"image_839bda.jpg",
+                "galleryImg3":"x.jpg",
+                "galleryImg4":"image_839bc0.jpg",
+                "galleryImg5":"image_839ba3.jpg"
+            }
+        }
+    }
+};
+</script>
+
+<!-- 精简化只读页面控制脚本 -->
+<script>
+(function () {
+    let pageConfig = null;
+
+    function initSystem() {
+        const embeddedElement = document.getElementById('embedded-page-config');
+        if (embeddedElement && window.__EMBEDDED_PAGE_CONFIG__) {
+            pageConfig = window.__EMBEDDED_PAGE_CONFIG__;
+        } else {
+            console.error("无法读取到配置数据块，执行页面渲染失败。");
+            return;
+        }
+
+        renderPageByConfig();
+        setupScrollSpy();
+    }
+
+    // Canvas 环形图高清晰度绘制引擎
+    function drawDonutChart(canvasId, values, colors) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        
+        const width = canvas.clientWidth || canvas.width;
+        const height = canvas.clientHeight || canvas.height;
+        const dpr = window.devicePixelRatio || 1;
+        
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+        
+        const radius = Math.min(width, height) / 2;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const total = values.reduce((sum, val) => sum + val, 0);
+        
+        ctx.clearRect(0, 0, width, height);
+        
+        let startAngle = -Math.PI / 2;
+        
+        for (let i = 0; i < values.length; i++) {
+            const sliceAngle = (values[i] / total) * 2 * Math.PI;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius - 8, startAngle, startAngle + sliceAngle);
+            
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = colors[i] + '33';
+            ctx.strokeStyle = colors[i];
+            ctx.lineWidth = 8;
+            ctx.stroke();
+            
+            startAngle += sliceAngle;
+        }
+        
+        ctx.shadowBlur = 0;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius - 12, 0, 2 * Math.PI);
+        ctx.fillStyle = '#050505'; 
+        ctx.fill();
+    }
+
+    function renderAllDashboardCharts() {
+        drawDonutChart('chart-regions', [63, 43, 19], ['#98cb47', '#5e802c', '#ffffff']);
+        drawDonutChart('chart-types', [43, 35, 12, 8, 7, 9, 4, 7], ['#98cb47', '#83af3e', '#6d9334', '#57772b', '#425c1e', '#ffffff', 'rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.3)']);
+        drawDonutChart('chart-relations', [58, 45, 22], ['#98cb47', '#5e802c', '#ffffff']);
+        drawDonutChart('chart-intentions', [97, 18, 7, 3], ['#253511', '#98cb47', '#6d9334', '#ffffff']);
+    }
+
+    // 页面核心动态构建渲染器
+    function renderPageByConfig() {
+        const rootContainer = document.getElementById('report-sections-root');
+        if (!rootContainer) return;
+
+        const currentElements = {};
+        pageConfig.modulesOrder.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) currentElements[id] = el.cloneNode(true);
+        });
+
+        rootContainer.innerHTML = '';
+
+        pageConfig.modulesOrder.forEach(id => {
+            const targetEl = currentElements[id];
+            const modConfig = pageConfig.modules[id];
+            if (!targetEl || !modConfig) return;
+
+            // 板块显隐控制
+            targetEl.style.display = modConfig.visible === false ? 'none' : '';
+            const dot = document.querySelector(`.nav-dot[onclick*="${id.replace('slide-', '')}"]`);
+            if (dot) dot.style.display = modConfig.visible === false ? 'none' : '';
+
+            // 模块强调边框控制
+            targetEl.classList.toggle('module-emphasis-highlight', modConfig.emphasis === 'highlight');
+
+            // 精准注入及双重校验安全保护机制
+            if (modConfig.fields) {
+                Object.keys(modConfig.fields).forEach(key => {
+                    const el = targetEl.querySelector(`[data-field="${key}"]`);
+                    if (el) {
+                        if (el.tagName === 'IMG') {
+                            // 【双向智能合并修复】：当代码中直接更新了图片的 src 时，优先读取 HTML 里的 src 并同步配置
+                            const htmlSrc = el.getAttribute('src');
+                            if (htmlSrc && htmlSrc !== modConfig.fields[key]) {
+                                modConfig.fields[key] = htmlSrc;
+                            }
+                            el.src = modConfig.fields[key];
+                        } else {
+                            el.textContent = modConfig.fields[key];
+                        }
+                    }
+                });
+            }
+
+            // 议程表动态结构化渲染
+            if (modConfig.type === "agenda" && modConfig.agendaItems) {
+                const timelineContainer = targetEl.querySelector('[data-field="timeline"]');
+                if (timelineContainer) {
+                    timelineContainer.innerHTML = '<div class="timeline-line"></div>';
+                    
+                    let lastPeriod = null;
+                    modConfig.agendaItems.forEach((item, index) => {
+                        const stepNum = String(index + 1).padStart(2, '0');
+                        const formattedDesc = item.desc ? item.desc.replace(/\n/g, '<br>') : '';
+                        
+                        let periodHeaderHtml = '';
+                        if (item.period && item.period !== lastPeriod) {
+                            lastPeriod = item.period;
+                            periodHeaderHtml = `
+                                <div class="relative flex items-center gap-4 my-8 pl-[110px] sm:pl-[130px]">
+                                    <div class="absolute left-[130px] -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[var(--brand-green)] ring-4 ring-[var(--brand-green)]/20 z-10 animate-pulse"></div>
+                                    <span class="text-xs uppercase tracking-[0.2em] text-[var(--brand-green)] font-bold bg-[var(--brand-green)]/10 border border-[var(--brand-green)]/20 px-3 py-1 rounded-md ml-6 shadow-[0_0_15px_rgba(152,203,71,0.1)]">
+                                        ${item.period}
+                                    </span>
+                                    <div class="flex-grow h-[1px] bg-gradient-to-r from-[var(--brand-green)]/30 to-transparent"></div>
+                                </div>
+                            `;
+                        }
+
+                        const itemHtml = `
+                            ${periodHeaderHtml}
+                            <div class="timeline-item flex items-start">
+                                <div class="time-label">${item.time}</div>
+                                <div class="timeline-node"></div>
+                                <div class="agenda-card">
+                                    <div class="w-10 h-10 ${item.tagClass} rounded-lg flex items-center justify-center text-xs font-mono font-bold tracking-tight shrink-0">${stepNum}</div>
+                                    <div class="flex-grow">
+                                        <div class="flex flex-wrap items-center gap-2.5 mb-1.5">
+                                            <span class="tag ${item.tagClass}">${item.tagText}</span>
+                                            <h3 class="font-bold text-lg text-white leading-snug">${item.title}</h3>
+                                        </div>
+                                        <p class="text-sm text-gray-400 leading-relaxed max-w-2xl">${formattedDesc}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        timelineContainer.insertAdjacentHTML('beforeend', itemHtml);
+                    });
+                }
+            }
+
+            rootContainer.appendChild(targetEl);
+        });
+
+        // 视图树就绪后重新激发 Canvas 图表重绘
+        setTimeout(renderAllDashboardCharts, 40);
+    }
+
+    function setupScrollSpy() {
+        window.addEventListener('scroll', () => {
+            let matched = pageConfig.currentActiveModule;
+            document.querySelectorAll('main > section').forEach(s => {
+                const rect = s.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) matched = s.id;
+            });
+            if (matched !== pageConfig.currentActiveModule) {
+                pageConfig.currentActiveModule = matched;
+                updateDots(matched.replace('slide-', ''));
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initSystem);
+})();
+</script>
+
+<!-- 平滑滚动导航机制 -->
+<script>
+function scrollToSlide(idSuffix) {
+    const slide = document.getElementById(`slide-${idSuffix}`);
+    if (slide) {
+        window.scrollTo({ top: slide.offsetTop - 20, behavior: 'smooth' });
+        updateDots(idSuffix);
+    }
+}
+
+function updateDots(activeId) {
+    const dots = document.querySelectorAll('.nav-dot');
+    dots.forEach((dot) => {
+        const targetId = dot.getAttribute('onclick').match(/'([^']+)'/)[1];
+        if (targetId === activeId.toString()) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('main > section');
+    let currentId = '0';
+    sections.forEach((section) => {
+        if (window.pageYOffset >= section.offsetTop - 200) {
+            const idStr = section.id.replace('slide-', '');
+            if(idStr) currentId = idStr;
+        }
+    });
+    updateDots(currentId);
+});
+</script>
+</body>
+</html>
